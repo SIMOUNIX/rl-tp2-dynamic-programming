@@ -48,11 +48,7 @@ class MDP(gym.Env):
         self.observation_space = spaces.Discrete(3)
         self.initial_state = random.randint(0, 2)
         
-        self._actions = {
-            0: [(1, -1), (0, -1)],
-            1: [(0, -1), (2, -1)],
-            2: [(2, 0), (0, -1)]
-        }
+        self.P = [ [(1, -1, False), (0, -1, False)], [(0, -1, False), (2, -1, False)], [(2, 0, False), (0, -1, False)]]
         
     def reset_state(self, value: t.Optional[int] = None):
         """
@@ -72,10 +68,10 @@ class MDP(gym.Env):
         Renvoie l'observation suivante, la récompense, un booléen indiquant
         si l'épisode est terminé, et un dictionnaire d'informations.
         """
-        new_state, reward = self._actions.get(self.initial_state)[action]
+        new_state, reward, boolean = self.P[(self.initial_state)][action]
         
         # update the position if transition
         if transition:
             self.initial_state = new_state
         
-        return self.initial_state, reward, False, {}
+        return self.initial_state, reward, boolean, {}
