@@ -44,9 +44,16 @@ class MDP(gym.Env):
     P: list[list[tuple[int, float, bool]]]
 
     def __init__(self):
-        # BEGIN SOLUTION
-        # END SOLUTION
-
+        self.action_space = spaces.Discrete(2)
+        self.observation_space = spaces.Discrete(3)
+        self.initial_state = random.randint(0, 2)
+        
+        self._actions = {
+            0: [(1, -1), (0, -1)],
+            1: [(0, -1), (2, -1)],
+            2: [(2, 0), (0, -1)]
+        }
+        
     def reset_state(self, value: t.Optional[int] = None):
         """
         Resets the initial state of the MDP object.
@@ -65,5 +72,10 @@ class MDP(gym.Env):
         Renvoie l'observation suivante, la récompense, un booléen indiquant
         si l'épisode est terminé, et un dictionnaire d'informations.
         """
-        # BEGIN SOLUTION
-        # END SOLUTION
+        new_state, reward = self._actions.get(self.initial_state)[action]
+        
+        # update the position if transition
+        if transition:
+            self.initial_state = new_state
+        
+        return self.initial_state, reward, False, {}
