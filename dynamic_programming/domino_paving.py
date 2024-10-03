@@ -18,4 +18,14 @@ def domino_paving(n: int) -> int:
     """
     a = 0
     # BEGIN SOLUTION
+    if n < 0 or n % 2 != 0:
+        return 0
+    if n == 0:
+        return 1
+    if n == 2:
+        return 3
+    
+    a = 4 * domino_paving(n - 2) -  domino_paving(n - 4)
+    
+    return a
     # END SOLUTION
