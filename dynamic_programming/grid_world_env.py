@@ -129,3 +129,11 @@ class GridWorldEnv(gym.Env):
                 else:
                     print(self.grid[row, col], end=" ")
             print("")  # Newline at the end of the row
+
+    def get_next_states(self, action):
+        # get the next state
+        next_state, reward, done, _ = self.step(action, make_move=False)
+        # get the probability of the next state
+        prob = self.moving_prob[next_state[0], next_state[1], action]
+        print(f"prob: {prob}")
+        return [(next_state, reward, prob, done, {})]
