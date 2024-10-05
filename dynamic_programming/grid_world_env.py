@@ -132,5 +132,6 @@ class GridWorldEnv(gym.Env):
 
     def get_next_states(self, action):
         next_state, reward, is_done, _ = self.step(action, make_move=False)
-        return [(next_state, reward, 1.0, is_done, action)]
+        proba = self.moving_prob[self.current_position[0], self.current_position[1], action]
+        return [(next_state, reward, proba, is_done, action)]
     
