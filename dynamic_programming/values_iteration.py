@@ -66,7 +66,7 @@ def grid_world_value_iteration(
         for row in range(4):
             for col in range(4):
                 env.set_state(row, col)
-                delta = value_iteration_per_state(env, values, gamma, prev_val, delta)
+                delta += value_iteration_per_state(env, values, gamma, prev_val, delta)
         if delta < theta:
             break
     return values
@@ -105,7 +105,7 @@ def stochastic_grid_world_value_iteration(
         for row in range(4):
             for col in range(4):
                 env.set_state(row, col)
-                delta = value_iteration_per_state(env, values, gamma, prev_val, delta)
+                delta += value_iteration_per_state(env, values, gamma, prev_val, delta)
         if delta < theta:
             break
     return values
