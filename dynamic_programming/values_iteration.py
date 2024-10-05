@@ -26,7 +26,7 @@ def mdp_value_iteration(mdp: MDP, max_iter: int = 1000, gamma=1.0) -> np.ndarray
     """
     values = np.zeros(mdp.observation_space.n)
     # BEGIN SOLUTION
-    for i in range(max_iter):
+    for _ in range(max_iter):
         prev_val = np.copy(values)
         delta = 0
         for state in range(mdp.observation_space.n):
@@ -35,7 +35,7 @@ def mdp_value_iteration(mdp: MDP, max_iter: int = 1000, gamma=1.0) -> np.ndarray
             for action in range(mdp.action_space.n):
                 # print(f"state: {state}")
                 # print(f"action: {action}")
-                next_state, reward, probability = mdp.P[state][action]
+                next_state, reward, _ = mdp.P[state][action]
                 calc = 1 * (reward + gamma * prev_val[next_state])
                 # print(f"calc: {calc}")
                 sum_values.append(calc)
@@ -60,15 +60,15 @@ def grid_world_value_iteration(
     """
     values = np.zeros((4, 4))
     # BEGIN SOLUTION
-    for i in range(max_iter):
+    for _ in range(max_iter):
         prev_val = np.copy(values)
         delta = 0
         for row in range(4):
             for col in range(4):
-                values[row, col] = value_iteration_per_state(env, values, gamma, prev_val, delta)
+                env.set_state(row, col)
+                delta = value_iteration_per_state(env, values, gamma, prev_val, delta)
         if delta < theta:
             break
-        
     return values
     # END SOLUTION
 
@@ -99,5 +99,14 @@ def stochastic_grid_world_value_iteration(
 ) -> np.ndarray:
     values = np.zeros((4, 4))
     # BEGIN SOLUTION
+    for _ in range(max_iter):
+        prev_val = np.copy(values)
+        delta = 0
+        for row in range(4):
+            for col in range(4):
+                env.set_state(row, col)
+                delta = value_iteration_per_state(env, values, gamma, prev_val, delta)
+        if delta < theta:
+            break
     return values
     # END SOLUTION
